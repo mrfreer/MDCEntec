@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block main %}
+    <form action = "/addmoreinfo">
+        <!-- TODO: pass the student number into this page. -->
+        <select>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Information Technology">Information Technology</option>
+        <option value="Data Analytics">Data Analytics</option>
+        <option value="Other">Other</option>
+    </select>
+    <BR><BR>
+    Your email: <input type="text" name="uEmail">
+    <BR><BR>
+    <button type="submit">Add Your Info.</button>
+    </form>
+
+
+
+{% endblock %}

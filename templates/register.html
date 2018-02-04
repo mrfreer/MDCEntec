@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block main %}
+    <main> <!-- make a class later in styles.css to change the look of this class. -->
+            <h2>Register as an Advisor</h2>
+
+            <form method="post" action="/signup">
+                {{  form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.name.label }}
+                    {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                        <p class="error-messages">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {{  form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                        <p class="error-messages">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {{  form.email }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                        <p class="error-messages">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {{  form.password }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+            </form>
+    </main>
+
+{% endblock %}

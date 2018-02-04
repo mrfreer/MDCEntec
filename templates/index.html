@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block main %}
+    <link href="/static/styles.css" rel="stylesheet"/>
+    <div class="info">
+    Welcome to EnTec Advising.  Administrators may log in to add or remove advisors or view previous advising sessions.
+    <BR>
+    Students and prospective students, add your info below to visit with an advisor.
+    <BR>
+    Advisors:
+    <BR>
+    <form action = "/addstudent" method="post">
+    <select name ="selectedAdvisor">
+        {% for i in results %}
+        <option value=' {{ i.advisorid }} '> {{ i.advisorname }}</option>
+        <!-- TODO: cool feature to crawl the web and automate getting everyone's schedule!!  !-->
+        {% endfor %}
+    </select>
+    <BR><BR>
+        <div class="form-group">
+                    {{ studentForm.name.label }}
+                    {% if studentForm.name.errors %}
+                        {% for error in studentForm.name.errors %}
+                        <p class="error-messages">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {{  studentForm.name }}
+                </div>
+                <div class="form-group">
+    <BR><BR>
+    <button type="submit">See an Advisor</button>
+    </form>
+    </div>
+{% endblock %}

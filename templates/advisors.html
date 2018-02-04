@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block main %}
+    <link href="/static/styles.css" rel="stylesheet"/>
+    <div class="info">
+    Review the advising activity:
+    <BR>
+    <form action = "/viewinfo" method="post">
+    <select name ="selectedAdvisor">
+        {% for i in rows %}
+        <option value=' {{ i[0] }} '> {{ i[1] }}</option>
+        {% endfor %}
+    </select>
+    <BR><BR>
+
+    <button type="submit">Review information.</button>
+    </form>
+    </div>
+{% endblock %}
+
