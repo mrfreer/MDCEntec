@@ -62,10 +62,10 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/addstudent", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def addstudent():
-    newstudent = ''
     form = StudentForm()
+    form.advisor.choices = [(row.advisorid, row.advisorname) for row in User.query.group_by(User.advisorname).all()]
     if request.method == "POST":
         if form.validate() == False:
             results = User.query.all()
@@ -73,19 +73,15 @@ def addstudent():
         else:
             newstudent = form.name.data
             advisor = form.advisor.data
+            print(newstudent + " is the newstudent")
             meeting = Meeting(newstudent, advisor)
             db.session.add(meeting)
             db.session.commit()
         return render_template('madeit.html', newstudent=newstudent)
-
-
-@app.route("/")
-def index():
-    results = User.query.all()
-    temp = "temp"
-    studentForm = StudentForm()
-    return render_template('index.html', results=results, studentForm=studentForm)
-
+    elif request.method == "GET":
+        return render_template('index.html', studentForm=form)
+    else:
+        return "WHAT HAPPENED?"
 
 @app.route("/home")
 def home():

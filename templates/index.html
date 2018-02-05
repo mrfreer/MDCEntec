@@ -6,15 +6,9 @@
     <BR>
     Students and prospective students, add your info below to visit with an advisor.
     <BR>
-    Advisors:
-    <BR>
     <form action = "/addstudent" method="post">
-    <select name ="selectedAdvisor">
-        {% for i in results %}
-        <option value=' {{ i.advisorid }} '> {{ i.advisorname }}</option>
-        <!-- TODO: cool feature to crawl the web and automate getting everyone's schedule!!  !-->
-        {% endfor %}
-    </select>
+            {{ studentForm.advisor.label }}
+            {{ studentForm.advisor }}
     <BR><BR>
         <div class="form-group">
                     {{ studentForm.name.label }}
@@ -23,12 +17,11 @@
                         <p class="error-messages">{{ error }}</p>
                         {% endfor %}
                     {% endif %}
-
                     {{  studentForm.name }}
                 </div>
                 <div class="form-group">
     <BR><BR>
-    <button type="submit">See an Advisor</button>
+                    {{ studentForm.submit }}
     </form>
     </div>
 {% endblock %}
