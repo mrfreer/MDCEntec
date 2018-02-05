@@ -21,6 +21,6 @@ class LoginForm(Form):
 
 class StudentForm(Form):
     name = StringField('Name: ', validators=[DataRequired("You must enter your name.")])
-    advisor = SelectField('Advisor: ', validators=[DataRequired()], id='select_advisor')
+    advisor = SelectField(coerce=int)
     submit = SubmitField('See an advisor')
 

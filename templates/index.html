@@ -7,8 +7,13 @@
     Students and prospective students, add your info below to visit with an advisor.
     <BR>
     <form action = "/addstudent" method="post">
-            {{ studentForm.advisor.label }}
+            Advisor:
             {{ studentForm.advisor }}
+                {% if studentForm.advisor.errors %}
+                    {% for error in studentForm.advisor.errors %}
+                        <p class="error-messages">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
     <BR><BR>
         <div class="form-group">
                     {{ studentForm.name.label }}
