@@ -15,12 +15,15 @@ class User(db.Model):
     email = db.Column(db.VARCHAR(200))
     password = db.Column(db.TEXT)
 
+
+
+    def __repr__(self):
+        return self.advisorname
+
     def __init__(self, advisorname, email, password):
         self.advisorname = advisorname.title()
         self.email = email.lower()
         self.set_password(password)
-
-
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -46,8 +49,6 @@ class Student(db.Model):
     __tablename__ = 'students'
     studentid = db.Column(db.Integer, primary_key=True)
     studentname = db.Column(db.TEXT)
-    email = db.Column(db.TEXT)
-    major = db.Column(db.TEXT)
 
 
 

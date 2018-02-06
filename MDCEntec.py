@@ -19,6 +19,7 @@ def signup():
     form = SignupForm()
     if request.method == "POST":
         if form.validate() == False:
+
             return render_template('register.html', form=form)
         else:
             newuser = User(form.name.data, form.email.data, form.password.data)
@@ -65,7 +66,9 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = StudentForm()
-    form.advisor.choices = [(int(row.advisorid), row.advisorname) for row in User.query.group_by(User.advisorname).all()]
+    fetch_available_items = User.query.all()
+    for row in fetch_available_items:
+        form.advisor.choices += [(row.advisorid, row.advisorname)]
     if request.method == "GET":
         return render_template('index.html', studentForm=form)
     else:
@@ -75,13 +78,8 @@ def index():
 @app.route("/addstudent", methods=["GET", "POST"])
 def addstudent():
     form = StudentForm()
-    form.advisor.choices = [(int(row.advisorid), row.advisorname) for row in User.query.group_by(User.advisorname).all()]
     if request.method == "POST":
-        if form.validate() == False:
-            print("ERROR ADVISOR " + str(form.advisor.data))
-            print("ERROR NAME " + form.name.data)
-            return render_template("index.html", studentForm=form)
-        else:
+        if len(form.name.data) > 0:
             newstudent = form.name.data
             advisor = int(form.advisor.data)
             print(newstudent + " is the newstudent")
@@ -89,6 +87,9 @@ def addstudent():
             db.session.add(meeting)
             db.session.commit()
             return render_template('madeit.html', newstudent=newstudent)
+        else:
+            name = "Enter a name"
+            return render_template('index.html', studentForm=form, name=name)
 
 
 @app.route("/home")

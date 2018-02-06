@@ -17,6 +17,7 @@
     <BR><BR>
         <div class="form-group">
                     {{ studentForm.name.label }}
+                    {{ name }}
                     {% if studentForm.name.errors %}
                         {% for error in studentForm.name.errors %}
                         <p class="error-messages">{{ error }}</p>
