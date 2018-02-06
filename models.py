@@ -16,7 +16,6 @@ class User(db.Model):
     password = db.Column(db.TEXT)
 
 
-
     def __repr__(self):
         return self.advisorname
 
@@ -37,13 +36,14 @@ class Meeting(db.Model):
     meetingid = db.Column(db.Integer, primary_key=True)
     studentname = db.Column(db.TEXT)
     advisorid = db.Column(db.Integer)
-#    meetingtime = db.Column(db.TIMESTAMP)
+    meetingtime = db.Column(db.TIMESTAMP)
 #    notes = db.Column(db.TEXT)
+    seenyet = db.Column(db.Boolean)
 
     def __init__(self, studentname, advisor):
         self.studentname = studentname
         self.advisorid = advisor
-
+        self.seenyet = False
 
 class Student(db.Model):
     __tablename__ = 'students'

@@ -2,6 +2,7 @@
 {% block main %}
     <link href="/static/styles.css" rel="stylesheet"/>
      Welcome, {{ curemail }} <BR>
+
     {% block checksize %}
         {% if meetings is not defined %}
             <p>No meetings yet! Start advising.</p>
@@ -10,19 +11,25 @@
         {% elif meetings == None %}
             <p>Start advising those students.</p>
         {% else %}
-            <table>
+            <form action="/finishadvising" method="post">
+            <table cellpadding="5">
                 <tr>
                     <th>Student Name</th>
                     <th>Meeting Time</th>
-                    <th>Notes For Advisors</th>
+                    <th>Seen student</th>
                 </tr>
             {% for meet in meetings %}
                 <tr>
                     <th>{{ meet.studentname }}</th>
-                    <th>{{ meet.advisorid }}</th>
+                    <th>{{ meet.meetingtime }}</th>
+                    <th>{{ meet.meetingid }}</th>
+                    <th>{{ meetingform.seenstudent(id=meet.meetingid, value='n') }}</th>
                     <!-- <th>{{ meet }}</th> -->
                 </tr>
             {% endfor %}
+            </table>
+            <input type="submit" value="Mark as Viewed">
+            </form>
         {% endif %}
     {% endblock %}
     </table>

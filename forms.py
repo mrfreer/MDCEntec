@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, SelectField, SubmitField, PasswordField
+from wtforms import StringField, SelectField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, Length
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from models import User
@@ -32,4 +32,8 @@ class StudentForm(Form):
     #advisor = SelectField('advisor', coerce=int, choices=[(1, 'Foo 1'), (2, 'Foo 2')])
     advisor = SelectField('Pick your advisor', coerce=int, choices=[], validators=None)
     submit = SubmitField('See an advisor')
+
+
+class MeetingForm(Form):
+    seenstudent = BooleanField()
 
