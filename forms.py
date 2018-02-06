@@ -4,8 +4,7 @@ from wtforms import StringField, SelectField, SubmitField, PasswordField, Boolea
 from wtforms.validators import DataRequired, Email, Length
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from models import User
-
-db = SQLAlchemy()
+from models import db
 
 
 class SignupForm(Form):

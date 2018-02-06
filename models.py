@@ -1,9 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from config import db
 from werkzeug.security import generate_password_hash, check_password_hash
-
-
-db = SQLAlchemy()
 
 
 class User(db.Model):
@@ -38,12 +36,13 @@ class Meeting(db.Model):
     advisorid = db.Column(db.Integer)
     meetingtime = db.Column(db.TIMESTAMP)
 #    notes = db.Column(db.TEXT)
-    seenyet = db.Column(db.Boolean)
+    seenyet2 = db.Column(db.Integer)
 
     def __init__(self, studentname, advisor):
         self.studentname = studentname
         self.advisorid = advisor
-        self.seenyet = False
+
+
 
 class Student(db.Model):
     __tablename__ = 'students'

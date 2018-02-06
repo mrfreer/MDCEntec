@@ -23,7 +23,7 @@
                     <th>{{ meet.studentname }}</th>
                     <th>{{ meet.meetingtime }}</th>
                     <th>{{ meet.meetingid }}</th>
-                    <th>{{ meetingform.seenstudent(id=meet.meetingid, value='n') }}</th>
+                    <td><input type=checkbox name=do_delete value="{{ meet.meetingid }}"></td><td>{{ meet.meetingid }}</td>
                     <!-- <th>{{ meet }}</th> -->
                 </tr>
             {% endfor %}

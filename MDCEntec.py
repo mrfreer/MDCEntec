@@ -5,12 +5,7 @@ from sqlalchemy import and_
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import SignupForm, LoginForm, StudentForm, MeetingForm
 from flask_sqlalchemy import SQLAlchemy
-
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://entec:entec@localhost/advising'
-db = SQLAlchemy(app)
-app.secret_key = "development-key"
+from config import app
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -108,9 +103,22 @@ def home():
         return render_template('advisorinfo.html', meetings=None, curemail=curemail, number=number)
 
 
-@app.route("/finishadvising")
+@app.route("/finishadvising", methods=["GET", "POST"])
 def finishadvising():
-    return 'made it'
+    meetids = request.form.getlist("do_delete")
+    view = ''
+    for meet in meetids:
+        print(meet)
+        m = Meeting.query.filter(Meeting.meetingid == meet).one()
+        print(m.meetingid)
+        if int(m.meetingid) == int(meet):
+            m.notes = "wowowow"
+            m.studentname = "oye"
+            m.seenyet2 = 1
+            db.session.commit()
+        view += meet
+
+    return view
 
 if __name__ == '__main__':
     app.run(debug=True)
