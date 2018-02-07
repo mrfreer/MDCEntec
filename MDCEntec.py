@@ -64,10 +64,9 @@ def index():
     fetch_available_items = User.query.all()
     for row in fetch_available_items:
         form.advisor.choices += [(row.advisorid, row.advisorname)]
-    if request.method == "GET":
-        return render_template('index.html', studentForm=form)
-    else:
-        return "WHAT HAPPENED?"
+
+    return render_template('index.html', studentForm=form)
+
 
 
 @app.route("/addstudent", methods=["GET", "POST"])
@@ -78,7 +77,7 @@ def addstudent():
             newstudent = form.name.data
             advisor = int(form.advisor.data)
             print(newstudent + " is the newstudent")
-            meeting = Meeting(newstudent, advisor)
+            meeting = Meeting(newstudent, advisor, False)
             db.session.add(meeting)
             db.session.commit()
             return render_template('madeit.html', newstudent=newstudent)
@@ -96,7 +95,7 @@ def home():
     number = User.query.filter_by(**kwargs)
     print(str(number.count()) + " is number")
     if number.count() is not 0:
-        meetings = Meeting.query.filter(Meeting.advisorid == userid[0].advisorid)
+        meetings = Meeting.query.filter(and_(Meeting.advisorid == userid[0].advisorid) , (Meeting.seenyet2==False))
         meetingform = MeetingForm()
         return render_template('advisorinfo.html', meetings=meetings, curemail=curemail, number=number, meetingform=meetingform)
     else:
@@ -112,13 +111,11 @@ def finishadvising():
         m = Meeting.query.filter(Meeting.meetingid == meet).one()
         print(m.meetingid)
         if int(m.meetingid) == int(meet):
-            m.notes = "wowowow"
-            m.studentname = "oye"
             m.seenyet2 = 1
             db.session.commit()
         view += meet
 
-    return view
+    return index()
 
 if __name__ == '__main__':
     app.run(debug=True)

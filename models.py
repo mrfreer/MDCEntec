@@ -38,9 +38,10 @@ class Meeting(db.Model):
 #    notes = db.Column(db.TEXT)
     seenyet2 = db.Column(db.Integer)
 
-    def __init__(self, studentname, advisor):
+    def __init__(self, studentname, advisor, seenyet):
         self.studentname = studentname
         self.advisorid = advisor
+        self.seenyet2 = seenyet
 
 
 
