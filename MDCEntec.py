@@ -29,6 +29,8 @@ def signup():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    session.pop('email', None)
+    session.pop('id', None)
     if 'email' in session:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -39,11 +41,12 @@ def login():
         else:
             email = form.email.data
             password = form.password.data
+            print(email + " is the email.")
+            print(password + " is the password.")
 
             user = User.query.filter_by(email=email).first()
             if user is not None and user.check_password(password):
                 session['email'] = form.email.data
-                session['id'] = User.query.filter(User.email == session['email'])
                 return redirect(url_for('home'))
             else:
                 return redirect(url_for('login'))
@@ -66,7 +69,6 @@ def index():
         form.advisor.choices += [(row.advisorid, row.advisorname)]
 
     return render_template('index.html', studentForm=form)
-
 
 
 @app.route("/addstudent", methods=["GET", "POST"])
@@ -92,10 +94,11 @@ def home():
     curemail = session['email']
     userid = User.query.filter(User.email == curemail)
     kwargs = {'email': curemail}
+
     number = User.query.filter_by(**kwargs)
     print(str(number.count()) + " is number")
     if number.count() is not 0:
-        meetings = Meeting.query.filter(and_(Meeting.advisorid == userid[0].advisorid) , (Meeting.seenyet2==False))
+        meetings = Meeting.query.filter(and_(Meeting.advisorid == userid[0].advisorid), (Meeting.seenyet2==False))
         meetingform = MeetingForm()
         return render_template('advisorinfo.html', meetings=meetings, curemail=curemail, number=number, meetingform=meetingform)
     else:
