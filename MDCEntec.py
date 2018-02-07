@@ -64,6 +64,7 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = StudentForm()
+    form.advisor.choices = []
     fetch_available_items = User.query.all()
     for row in fetch_available_items:
         form.advisor.choices += [(row.advisorid, row.advisorname)]
@@ -74,6 +75,7 @@ def index():
 @app.route("/addstudent", methods=["GET", "POST"])
 def addstudent():
     form = StudentForm()
+    form.advisor.choices = []
     if request.method == "POST":
         if len(form.name.data) > 0:
             newstudent = form.name.data
@@ -90,6 +92,7 @@ def addstudent():
 
 @app.route("/home")
 def home():
+
     print(session['email'] + " this is the email.")
     curemail = session['email']
     userid = User.query.filter(User.email == curemail)
@@ -99,6 +102,21 @@ def home():
     print(str(number.count()) + " is number")
     if number.count() is not 0:
         meetings = Meeting.query.filter(and_(Meeting.advisorid == userid[0].advisorid), (Meeting.seenyet2==False))
+        meetingform = MeetingForm()
+        return render_template('advisorinfo.html', meetings=meetings, curemail=curemail, number=number, meetingform=meetingform)
+    else:
+        return render_template('advisorinfo.html', meetings=None, curemail=curemail, number=number)
+
+
+@app.route("/allsessions")
+def allsessions():
+    curemail = session['email']
+    userid = User.query.filter(User.email == curemail)
+    kwargs = {'email': curemail}
+    number = User.query.filter_by(**kwargs)
+    print(str(number.count()) + " is number")
+    if number.count() is not 0:
+        meetings = Meeting.query.filter(Meeting.advisorid == userid[0].advisorid)
         meetingform = MeetingForm()
         return render_template('advisorinfo.html', meetings=meetings, curemail=curemail, number=number, meetingform=meetingform)
     else:
