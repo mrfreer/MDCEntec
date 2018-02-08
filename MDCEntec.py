@@ -18,11 +18,19 @@ def signup():
             return render_template('register.html', form=form)
         else:
             newuser = User(form.name.data, form.email.data, form.password.data)
-            db.session.add(newuser)
-            db.session.commit()
-            session['email'] = newuser.email
-            print(session['email'])
-            return redirect(url_for('home'))
+            curemail = form.email.data
+            kwargs = {'email': curemail}
+            number = User.query.filter_by(**kwargs)
+            print(str(number.count()))
+            if int(number.count()) == 0:
+                db.session.add(newuser)
+                db.session.commit()
+                session['email'] = newuser.email
+                print(session['email'])
+                return redirect(url_for('home'))
+            else:
+                alreadyregistered = 'Advisor email already registered'
+                return render_template('register.html', form=form, alreadyregistered=alreadyregistered)
     elif request.method == "GET":
         return render_template('register.html', form=form)
 

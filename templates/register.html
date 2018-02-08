@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 {% block main %}
     <main> <!-- make a class later in styles.css to change the look of this class. -->
-            <h2>Register as an Advisor</h2>
-
+        <h2>Register as an Advisor</h2>
+         <h1> {{ alreadyregistered }} </h1>
             <form method="post" action="/signup">
                 {{  form.hidden_tag() }}
                 <div class="form-group">
